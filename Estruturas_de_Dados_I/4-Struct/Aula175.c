@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Aula 174: Como criar um vetor de struct
+//Aula 174: Como criar uma matriz de struct
 
 typedef struct {
 	int dia, mes, ano;
