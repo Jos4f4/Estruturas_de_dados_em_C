@@ -1,0 +1,73 @@
+Quick sort
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+srand(time(NULL));
+
+// função básica: troca
+void troca(int *x, int *y){
+	int aux;
+	aux = *x;
+	*x = *y;
+	*y = aux;
+}
+
+// função básica: imprime
+void imprime(int vet[]){
+	int i;
+	for(i=0;i<N;i++){
+		printf("[%d]", vet[i]);
+	}
+	printf("\n");
+}
+
+//função básica: preenche
+void preenche(int vet[], int max){
+	int i;
+	for(i=0;i<N;i++){
+		vet[i] = (rand() % max) + 1;
+	}
+}
+
+//implementação um
+int partition(int vet[], int left, int right){
+	int i=left +1, j=right;
+
+	while(i<=j){
+		while(vet[i]<=vet[left]&&i<=right)i++;
+		while(vet[j]>vet[left]&&j>left)j--;
+		if(i<j)troca(&vet[i], &vet[j});
+	}
+
+	troca(&vet[j], &vet[left]);
+	return j;
+}
+
+//implementação dois
+int partition(int vet[], int left, int right){
+	int i, j, pivot;
+	pivo=vet[left];
+	i=left+1;
+	for(j=i;j<=right;j++){
+		if(vet[j]<pivot){
+			troca(&vet[j], &vet[i]);
+			i++;
+		}
+	}
+	troca(&vet[left], &vet[i-1]);
+	return i-1;
+}
+
+void quicksort(int vet[], int left, int right){
+	int pivot;
+
+	if(left>=right){
+		return;
+	}
+	
+	pivot = partition(vet, left, right);
+	quicksort(vet, left, pivot-1);
+	quicksort(vet, pivot+1, right);
+}

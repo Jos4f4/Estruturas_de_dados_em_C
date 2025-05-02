@@ -1,0 +1,56 @@
+Insertion sort
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+srand(time(NULL));
+
+// função básica: troca
+void troca(int *x, int *y){
+	int aux;
+	aux = *x;
+	*x = *y;
+	*y = aux;
+}
+
+// função básica: imprime
+void imprime(int vet[]){
+	int i;
+	for(i=0;i<N;i++){
+		printf("[%d]", vet[i]);
+	}
+	printf("\n");
+}
+
+//função básica: preenche
+void preenche(int vet[], int max){
+	int i;
+	for(i=0;i<N;i++){
+		vet[i] = (rand() % max) + 1;
+	}
+}
+
+//versão simples
+void insertion(){
+	int i, j;
+	for(i=1;i<N;i++){
+		for(j=i;j>0 && vet[j]<vetj-1];j--){
+			troca(&vet[j-1]; &vet[j]);
+		}	
+	}
+}
+
+
+//versão otimizada
+void insertion(){
+	int i, j, aux;
+	for(i=1;i<N;i++){
+		aux = vet[i];
+		for(j=i;j>0 && vet[j]<vetj-1];j--){
+			vet[j+1]=vet[j];
+		}
+		vet[j+1]=aux;	
+	}
+}
+

@@ -1,0 +1,45 @@
+Selection sort
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+srand(time(NULL));
+
+// função básica: troca
+void troca(int *x, int *y){
+	int aux;
+	aux = *x;
+	*x = *y;
+	*y = aux;
+}
+
+// função básica: imprime
+void imprime(int vet[]){
+	int i;
+	for(i=0;i<N;i++){
+		printf("[%d]", vet[i]);
+	}
+	printf("\n");
+}
+
+//função básica: preenche
+void preenche(int vet[], int max){
+	int i;
+	for(i=0;i<N;i++){
+		vet[i] = (rand() % max) + 1;
+	}
+}
+
+void selection(int vet[]){
+	int i, j, min;
+	for(i=0; i<N-1;i++){
+		min=i;
+		for(j=i;j<N;j++){
+			if(vet[j]<vet[min]){
+				min=j;
+			}
+		}
+		troca(&vet[min], &vet[i]);
+	}
+}
