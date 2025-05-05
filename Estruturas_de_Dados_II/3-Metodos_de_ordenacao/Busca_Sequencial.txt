@@ -1,0 +1,23 @@
+Busca Sequencial
+
+int buscaSeq(int vet[],int key){
+	int i;
+	for(i=0;i<N;i++){
+		if(vet[i]==key){
+			return i;
+		}
+	}
+	return -1;
+}
+
+//Otimização
+int buscaSeq(int vet[],int key){
+	int i;
+	for(i=0;i<N&&key<=vet[i];i++){
+		if(vet[i]==key){
+			return i;
+		}
+	}
+	return -1;
+}
+
