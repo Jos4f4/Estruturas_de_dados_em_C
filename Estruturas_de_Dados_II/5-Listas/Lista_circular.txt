@@ -1,0 +1,151 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definição da estrutura do nó
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+// Função para criar um novo nó
+Node* criarNo(int valor) {
+    Node* novo = (Node*)malloc(sizeof(Node));
+    if (!novo) {
+        printf("Erro de alocação!\n");
+        exit(1);
+    }
+    novo->data = valor;
+    novo->next = NULL;
+    return novo;
+}
+
+// Inserir no final da lista circular
+void inserirNoFim(Node** head, int valor) {
+    Node* novo = criarNo(valor);
+    if (*head == NULL) {
+        *head = novo;
+        novo->next = novo;  // Aponta para si mesmo
+    } else {
+        Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        temp->next = novo;
+        novo->next = *head;
+    }
+}
+
+// Inserir no início da lista circular
+void inserirNoInicio(Node** head, int valor) {
+    Node* novo = criarNo(valor);
+    if (*head == NULL) {
+        *head = novo;
+        novo->next = novo;
+    } else {
+        Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        novo->next = *head;
+        temp->next = novo;
+        *head = novo;
+    }
+}
+
+// Remover um nó com valor específico
+void remover(Node** head, int valor) {
+    if (*head == NULL) {
+        printf("Lista vazia!\n");
+        return;
+    }
+
+    Node *atual = *head, *anterior = NULL;
+
+    // Caso especial: remover o head
+    if (atual->data == valor) {
+        if (atual->next == *head) { // Único elemento
+            free(atual);
+            *head = NULL;
+            return;
+        }
+        Node* temp = *head;
+        while (temp->next != *head) {
+            temp = temp->next;
+        }
+        temp->next = atual->next;
+        *head = atual->next;
+        free(atual);
+        return;
+    }
+
+    // Procurar o elemento
+    anterior = atual;
+    atual = atual->next;
+    while (atual != *head) {
+        if (atual->data == valor) {
+            anterior->next = atual->next;
+            free(atual);
+            return;
+        }
+        anterior = atual;
+        atual = atual->next;
+    }
+
+    printf("Valor %d não encontrado na lista.\n", valor);
+}
+
+// Exibir a lista circular
+void exibir(Node* head) {
+    if (head == NULL) {
+        printf("Lista vazia!\n");
+        return;
+    }
+    Node* temp = head;
+    printf("Lista: ");
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != head);
+    printf("(volta para %d)\n", head->data);
+}
+
+// Liberar a memória da lista
+void liberarLista(Node** head) {
+    if (*head == NULL)
+        return;
+
+    Node* atual = *head;
+    Node* proximo;
+
+    do {
+        proximo = atual->next;
+        free(atual);
+        atual = proximo;
+    } while (atual != *head);
+
+    *head = NULL;
+}
+
+// Função principal para testar
+int main() {
+    Node* lista = NULL;
+
+    inserirNoFim(&lista, 10);
+    inserirNoFim(&lista, 20);
+    inserirNoFim(&lista, 30);
+    exibir(lista);
+
+    inserirNoInicio(&lista, 5);
+    exibir(lista);
+
+    remover(&lista, 20);
+    exibir(lista);
+
+    remover(&lista, 5);
+    exibir(lista);
+
+    remover(&lista, 100); // Valor não existente
+
+    liberarLista(&lista);
+    return 0;
+}
